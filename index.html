@@ -23,8 +23,16 @@
   <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Inter',system-ui,sans-serif;background:#f0f2f5; -webkit-tap-highlight-color:transparent;}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #f0f2f5;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      position: relative;
+    }
     ::-webkit-scrollbar{width:4px;height:4px;}
     ::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:4px;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
@@ -812,8 +820,8 @@ const AIConfirmationModal = ({parsedList,wallets,onClose,onConfirm,isOfflineDemo
   const totalExp=items.filter(t=>t.type==='expense').reduce((s,t)=>s+(t.amount||0),0);
 
   return(
-    <div className="fixed inset-0 z-50 flex items-center justify-center modal-blur p-4" style={{background:'rgba(0,0,0,0.4)'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl slide-up overflow-hidden flex flex-col" style={{maxHeight:'90vh'}}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-blur" style={{background:'rgba(0,0,0,0.45)', backdropFilter:'blur(8px)', WebkitBackdropFilter:'blur(8px)'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl mx-auto my-auto slide-up overflow-hidden flex flex-col" style={{maxHeight:'calc(100vh - 2rem)', boxSizing:'border-box'}} onClick={e=>e.stopPropagation()}>
         <div className="p-6 text-white" style={{background:'linear-gradient(135deg,#0d9488,#06b6d4,#2563eb)'}}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
@@ -1153,8 +1161,8 @@ const BudgetsPage = ({txs,budgets,onUpdateBudget}) => {
 
       {/* Edit Budget Modal */}
       {editingCat && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center modal-blur p-4" style={{background:'rgba(0,0,0,0.3)'}} onClick={e=>e.target===e.currentTarget&&setEditingCat(null)}>
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm slide-up overflow-hidden p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-blur" style={{background:'rgba(0,0,0,0.45)', backdropFilter:'blur(8px)', WebkitBackdropFilter:'blur(8px)'}} onClick={e=>e.target===e.currentTarget&&setEditingCat(null)}>
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-sm mx-auto my-auto slide-up overflow-hidden p-5 sm:p-6 space-y-4" style={{boxSizing:'border-box'}} onClick={e=>e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:editingCat.color+'20'}}>
@@ -1556,63 +1564,64 @@ const Modal = ({wallets,onClose,onSave,editTx}) => {
     onClose();
   };
   return(
-    <div className="fixed inset-0 z-50 flex items-center justify-center modal-blur p-4" style={{background:'rgba(0,0,0,0.3)'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md slide-up overflow-hidden" style={{maxHeight:'90vh',overflowY:'auto'}}>
-        <div style={{background:'linear-gradient(135deg,#0d9488,#06b6d4,#2563eb)'}} className="p-6 text-white">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">{editTx?'Sửa giao dịch':'Thêm giao dịch thủ công'}</h2>
-            <button onClick={onClose} className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white"><Ico name="x" size={16}/></button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-blur" style={{background:'rgba(0,0,0,0.45)', backdropFilter:'blur(8px)', WebkitBackdropFilter:'blur(8px)'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full mx-auto my-auto slide-up overflow-hidden flex flex-col" style={{maxWidth:'460px', maxHeight:'calc(100vh - 2rem)', boxSizing:'border-box'}} onClick={e=>e.stopPropagation()}>
+        <div style={{background:'linear-gradient(135deg,#0d9488,#06b6d4,#2563eb)'}} className="p-4 sm:p-6 text-white">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <h2 className="text-base sm:text-lg font-bold truncate pr-2">{editTx?'Sửa giao dịch':'Thêm giao dịch thủ công'}</h2>
+            <button onClick={onClose} className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white flex-shrink-0"><Ico name="x" size={16}/></button>
           </div>
-          <div className="flex gap-2 p-1 bg-white/20 rounded-xl mb-4">
+          <div className="flex gap-1.5 sm:gap-2 p-1 bg-white/20 rounded-xl mb-3 sm:mb-4">
             {[{v:'expense',l:'Chi tiêu'},{v:'income',l:'Thu nhập'}].map(({v,l})=>(
-              <button key={v} onClick={()=>setType(v)} className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${type===v?'bg-white text-teal-800 shadow-sm':'text-white/80 hover:text-white'}`}>{l}</button>
+              <button key={v} onClick={()=>setType(v)} className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${type===v?'bg-white text-teal-800 shadow-sm':'text-white/80 hover:text-white'}`}>{l}</button>
             ))}
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-light text-white/70">₫</span>
+            <span className="text-xl sm:text-2xl font-light text-white/70">₫</span>
             <input type="text" inputMode="numeric" placeholder="0" value={amount} onChange={e=>setAmount(fmtInput(e.target.value))}
-              className="flex-1 bg-transparent text-4xl font-bold text-white placeholder:text-white/40 outline-none" autoFocus/>
+              className="flex-1 bg-transparent text-3xl sm:text-4xl font-bold text-white placeholder:text-white/40 outline-none w-full min-w-0" autoFocus/>
           </div>
         </div>
-        <div className="p-5 space-y-4">
+        <div className="p-4 sm:p-5 space-y-3.5 sm:space-y-4 overflow-y-auto" style={{maxHeight:'calc(100vh - 210px)'}}>
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Danh mục</p>
-            <div className="grid grid-cols-4 gap-2 cat-scroll">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Danh mục</p>
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2 cat-scroll">
               {cats.map(c=>(
-                <button key={c.id} onClick={()=>setCatId(c.id)}
-                  className={`flex flex-col items-center gap-1.5 p-2.5 rounded-xl border-2 transition-all ${catId===c.id?'shadow-sm':'border-transparent bg-gray-50 hover:bg-gray-100'}`}
+                <button key={c.id} type="button" onClick={()=>setCatId(c.id)}
+                  className={`flex flex-col items-center justify-center gap-1 p-1.5 sm:p-2.5 rounded-xl border-2 transition-all min-w-0 ${catId===c.id?'shadow-sm':'border-transparent bg-gray-50 hover:bg-gray-100'}`}
                   style={catId===c.id?{borderColor:c.color,background:c.color+'15'}:{}}>
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{background:c.color+'25'}}>
-                    <Ico name={c.icon} size={16} color={c.color}/>
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:c.color+'25'}}>
+                    <Ico name={c.icon} size={15} color={c.color}/>
                   </div>
-                  <span className="text-xs font-medium text-gray-600 leading-tight text-center">{c.name}</span>
+                  <span className="text-[11px] sm:text-xs font-medium text-gray-700 leading-tight text-center truncate w-full px-0.5">{c.name}</span>
                 </button>
               ))}
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Ví tiền</p>
-            <div className="flex gap-2 flex-wrap">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Ví tiền</p>
+            <div className="flex gap-1.5 sm:gap-2 flex-wrap">
               {wallets.map(w=>(
-                <button key={w.id} onClick={()=>setWalletId(w.id)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-xl border-2 text-sm font-medium transition-all ${walletId===w.id?'border-cyan-500 bg-cyan-50 text-cyan-800':'border-gray-200 text-gray-600 hover:border-gray-300'}`}>
-                  <Ico name={w.icon} size={14}/>{w.name}
+                <button key={w.id} type="button" onClick={()=>setWalletId(w.id)}
+                  className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border-2 text-xs sm:text-sm font-medium transition-all ${walletId===w.id?'border-cyan-500 bg-cyan-50 text-cyan-800 shadow-xs':'border-gray-200 text-gray-600 hover:border-gray-300'}`}>
+                  <Ico name={w.icon} size={13}/><span className="truncate">{w.name}</span>
                 </button>
               ))}
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Ghi chú</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Ghi chú</p>
             <input type="text" placeholder="Mô tả giao dịch..." value={note} onChange={e=>setNote(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-400 placeholder:text-gray-300"/>
+              className="w-full border border-gray-200 rounded-xl px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm outline-none focus:border-cyan-400 placeholder:text-gray-300 min-w-0 box-border"/>
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Ngày giờ</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Ngày giờ</p>
             <input type="datetime-local" value={dateStr} onChange={e=>setDateStr(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-400 text-gray-700"/>
+              className="w-full border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm outline-none focus:border-cyan-400 text-gray-700 min-w-0 box-border bg-white"
+              style={{maxWidth:'100%'}}/>
           </div>
-          {err&&<p className="text-red-500 text-sm">{err}</p>}
-          <button onClick={save} className="w-full py-3.5 rounded-xl font-bold text-white text-sm" style={{background:'linear-gradient(135deg,#06b6d4,#10b981)'}}>
+          {err&&<p className="text-red-500 text-xs sm:text-sm font-medium">{err}</p>}
+          <button onClick={save} className="w-full py-3 sm:py-3.5 rounded-xl font-bold text-white text-sm shadow-md transition-all active:scale-[0.99]" style={{background:'linear-gradient(135deg,#06b6d4,#10b981)'}}>
             {editTx?'Cập nhật':'Lưu giao dịch'}
           </button>
         </div>
