@@ -51,9 +51,9 @@
     .btn-dark:hover{background:#374151;}
     .btn-outline{background:#fff;color:#374151;border:1.5px solid #e5e7eb;cursor:pointer;font-weight:500;transition:all .2s;}
     .btn-outline:hover{border-color:#9ca3af;}
-    .status-done{background:#dcfce7;color:#15803d;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;}
-    .status-cancel{background:#fee2e2;color:#dc2626;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;}
-    .status-pending{background:#fef9c3;color:#a16207;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;}
+    .status-done{background:#dcfce7;color:#15803d;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;white-space:nowrap;}
+    .status-cancel{background:#fee2e2;color:#dc2626;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;white-space:nowrap;}
+    .status-pending{background:#fef9c3;color:#a16207;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;white-space:nowrap;}
     .cat-scroll{max-height:200px;overflow-y:auto;}
     .no-scroll::-webkit-scrollbar{display:none;}
     select{cursor:pointer;}
@@ -73,6 +73,24 @@
     html.dark nav {
       background: #111827 !important;
       border-color: #1f2937 !important;
+    }
+    html.dark thead tr {
+      background: #0f172a !important;
+    }
+    html.dark thead th {
+      color: #94a3b8 !important;
+    }
+    html.dark .status-done {
+      background: rgba(16, 185, 129, 0.2) !important;
+      color: #34d399 !important;
+    }
+    html.dark .status-cancel {
+      background: rgba(239, 68, 68, 0.2) !important;
+      color: #f87171 !important;
+    }
+    html.dark .status-pending {
+      background: rgba(245, 158, 11, 0.2) !important;
+      color: #fbbf24 !important;
     }
     html.dark .bg-white {
       background-color: #1e293b !important;
@@ -912,7 +930,7 @@ const AIConfirmationModal = ({parsedList,wallets,onClose,onConfirm,isOfflineDemo
           )}
         </div>
 
-        <div className="p-6 overflow-y-auto space-y-4 flex-1" style={{background:'#f9fafb'}}>
+        <div className="p-6 overflow-y-auto space-y-4 flex-1 bg-gray-50 dark:bg-slate-900/60">
           {items.map((item,idx)=>{
             const cat=getCat(item.categoryId);
             const isInc=item.type==='income';
@@ -1826,11 +1844,11 @@ const Navbar = ({page,setPage,onAdd,darkMode,onToggleDarkMode}) => {
             <span className="text-xl font-black" style={{background:'linear-gradient(135deg,#06b6d4,#10b981)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Finix</span>
           </div>
 
-          {/* Desktop/Tablet Navigation Tabs */}
-          <div className="hidden sm:flex items-center gap-1 md:gap-1.5 flex-1 justify-center max-w-xl mx-auto">
+          {/* Desktop Navigation Tabs (>= 768px) */}
+          <div className="hidden md:flex items-center gap-1 lg:gap-1.5 flex-1 justify-center max-w-xl mx-auto">
             {navs.map(n=>(
               <button key={n.id} onClick={()=>setPage(n.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${page===n.id?'bg-gray-900 text-white shadow-sm':'text-gray-500 hover:text-gray-700 hover:bg-gray-100'}`}>
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs lg:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${page===n.id ? (darkMode ? 'bg-cyan-600 text-white shadow-sm' : 'bg-gray-900 text-white shadow-sm') : (darkMode ? 'text-gray-400 hover:text-white hover:bg-slate-800' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100')}`}>
                 <Ico name={n.icon} size={15}/>{n.label}
               </button>
             ))}
@@ -1860,13 +1878,13 @@ const Navbar = ({page,setPage,onAdd,darkMode,onToggleDarkMode}) => {
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200 flex items-center justify-around py-2 px-1 shadow-lg">
+      {/* Mobile Bottom Navigation Bar (< 768px) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-gray-200 dark:border-slate-800 flex items-center justify-around py-2 px-1 shadow-lg">
         {navs.map(n=>(
           <button
             key={n.id}
             onClick={()=>setPage(n.id)}
-            className={`flex flex-col items-center justify-center gap-0.5 py-1 px-2 rounded-xl transition-all cursor-pointer ${page===n.id?'text-cyan-600 font-bold scale-105':'text-gray-400 hover:text-gray-600'}`}
+            className={`flex flex-col items-center justify-center gap-0.5 py-1 px-2 rounded-xl transition-all cursor-pointer ${page===n.id ? 'text-cyan-600 dark:text-cyan-400 font-bold scale-105' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
           >
             <Ico name={n.icon} size={18}/>
             <span className="text-[10px] tracking-tight">{n.label}</span>
@@ -2131,7 +2149,7 @@ const Dashboard = ({txs,wallets,budgets,onAdd,onEdit,onDelete,onParsedAI,onOpenS
             <div className="relative">
               <Ico name="search" size={15} color="#9ca3af" className="absolute left-3 top-1/2 -translate-y-1/2"/>
               <input type="text" placeholder="Tìm giao dịch..." value={search} onChange={e=>setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-cyan-400 w-52" style={{background:'#f9fafb'}}/>
+                className="pl-9 pr-4 py-2 border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-cyan-400 w-52 text-gray-800 dark:text-gray-100"/>
             </div>
           </div>
         </div>
@@ -2139,7 +2157,7 @@ const Dashboard = ({txs,wallets,budgets,onAdd,onEdit,onDelete,onParsedAI,onOpenS
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100" style={{background:'#f9fafb'}}>
+              <tr className="border-b border-gray-100 dark:border-slate-700/60 bg-gray-50 dark:bg-slate-900/60">
                 <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3">Mô tả</th>
                 <th className="text-right text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3">Số tiền</th>
                 <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-3">Phương thức</th>
@@ -2288,20 +2306,20 @@ const History = ({txs,wallets,onEdit,onDelete}) => {
         <div className="flex items-center gap-3 p-4 border-b border-gray-100 flex-wrap">
           <div className="relative flex-1 min-w-48">
             <Ico name="search" size={15} color="#9ca3af" className="absolute left-3 top-1/2 -translate-y-1/2"/>
-            <input type="text" placeholder="Tìm giao dịch..." value={search} onChange={e=>setSearch(e.target.value)} className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-cyan-400" style={{background:'#f9fafb'}}/>
+            <input type="text" placeholder="Tìm giao dịch..." value={search} onChange={e=>setSearch(e.target.value)} className="w-full pl-9 pr-4 py-2 border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-cyan-400 text-gray-800 dark:text-gray-100"/>
           </div>
-          <select value={ft} onChange={e=>setFt(e.target.value)} className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-600 outline-none" style={{background:'#f9fafb'}}>
+          <select value={ft} onChange={e=>setFt(e.target.value)} className="border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 rounded-xl px-3 py-2 text-sm text-gray-600 dark:text-gray-300 outline-none">
             <option value="">Tất cả loại</option><option value="income">Thu nhập</option><option value="expense">Chi tiêu</option>
           </select>
-          <select value={fw} onChange={e=>setFw(e.target.value)} className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-600 outline-none" style={{background:'#f9fafb'}}>
+          <select value={fw} onChange={e=>setFw(e.target.value)} className="border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 rounded-xl px-3 py-2 text-sm text-gray-600 dark:text-gray-300 outline-none">
             <option value="">Tất cả ví</option>{wallets.map(w=><option key={w.id} value={w.id}>{w.name}</option>)}
           </select>
-          <select value={fc} onChange={e=>setFc(e.target.value)} className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-600 outline-none" style={{background:'#f9fafb'}}>
+          <select value={fc} onChange={e=>setFc(e.target.value)} className="border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 rounded-xl px-3 py-2 text-sm text-gray-600 dark:text-gray-300 outline-none">
             <option value="">Tất cả danh mục</option>{CATS.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </div>
         <table className="w-full">
-          <thead><tr style={{background:'#f9fafb'}} className="border-b border-gray-100">
+          <thead><tr className="border-b border-gray-100 dark:border-slate-700/60 bg-gray-50 dark:bg-slate-900/60">
             <th className="text-left text-xs font-semibold text-gray-400 uppercase px-5 py-3">Mô tả</th>
             <th className="text-right text-xs font-semibold text-gray-400 uppercase px-4 py-3">Số tiền</th>
             <th className="text-left text-xs font-semibold text-gray-400 uppercase px-4 py-3">Phương thức</th>
@@ -2373,7 +2391,7 @@ const Report = ({txs,wallets}) => {
       <div className="card overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-100"><h3 className="font-semibold text-gray-700">Báo cáo theo tháng – {now.getFullYear()}</h3></div>
         <table className="w-full">
-          <thead><tr style={{background:'#f9fafb'}} className="border-b border-gray-100">
+          <thead><tr className="border-b border-gray-100 dark:border-slate-700/60 bg-gray-50 dark:bg-slate-900/60">
             <th className="text-left text-xs font-semibold text-gray-400 uppercase px-5 py-3">Tháng</th>
             <th className="text-right text-xs font-semibold text-gray-400 uppercase px-4 py-3">Thu nhập</th>
             <th className="text-right text-xs font-semibold text-gray-400 uppercase px-4 py-3">Chi tiêu</th>
@@ -2516,7 +2534,7 @@ const App = () => {
   const openAdd=()=>{setEditTx(null);setModal(true);};
 
   return(
-    <div className="pb-20 sm:pb-8 min-h-screen transition-colors duration-200" style={{background: darkMode ? '#0b1120' : '#f0f2f5'}}>
+    <div className="pb-20 md:pb-8 min-h-screen transition-colors duration-200" style={{background: darkMode ? '#0b1120' : '#f0f2f5'}}>
       <Navbar
         page={page}
         setPage={setPage}
