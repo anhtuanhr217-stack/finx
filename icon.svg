@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Viền khung ngoài -->
+    <linearGradient id="fx-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5c6475" stop-opacity="0.85" />
+      <stop offset="50%" stop-color="#3e4554" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#525a6b" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- Nhánh trên + Mũi tên (Mặt sáng) -->
+    <linearGradient id="fx-top-light" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#14b8b8" />
+      <stop offset="55%" stop-color="#22d9b8" />
+      <stop offset="100%" stop-color="#38f2c0" />
+    </linearGradient>
+
+    <!-- Nhánh trên + Mũi tên (Mặt tối tạo khối) -->
+    <linearGradient id="fx-top-dark" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0b828c" />
+      <stop offset="60%" stop-color="#0da3a3" />
+      <stop offset="100%" stop-color="#12b8ac" />
+    </linearGradient>
+
+    <!-- Nhánh giữa xanh dương (Mặt sáng) -->
+    <linearGradient id="fx-mid-light" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1785ff" />
+      <stop offset="100%" stop-color="#29abff" />
+    </linearGradient>
+
+    <!-- Nhánh giữa xanh dương (Mặt tối tạo khối) -->
+    <linearGradient id="fx-mid-dark" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1558d6" />
+      <stop offset="100%" stop-color="#1f73eb" />
+    </linearGradient>
+
+    <!-- Chân chữ F xanh lá (Mặt tối bên trái) -->
+    <linearGradient id="fx-stem-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#19824a" />
+      <stop offset="100%" stop-color="#2ba85c" />
+    </linearGradient>
+
+    <!-- Chân chữ F xanh lá (Mặt sáng bên phải) -->
+    <linearGradient id="fx-stem-light" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3cd468" />
+      <stop offset="100%" stop-color="#5ae675" />
+    </linearGradient>
+  </defs>
+
+  <!-- Khung nền tối bo góc (App Icon) -->
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="#0d111a" stroke="url(#fx-border)" stroke-width="6" />
+
+  <!-- 1. CHÂN CHỮ F (Xanh lá) -->
+  <g id="fx-stem">
+    <path d="M 136 404 L 136 330 C 136 284, 174 268, 224 268 L 224 292 C 198 292, 198 312, 198 346 L 198 404 Z" fill="url(#fx-stem-dark)" />
+    <path d="M 167 404 L 167 346 C 167 306, 184 282, 224 282 L 224 292 C 202 294, 198 312, 198 346 L 198 404 Z" fill="url(#fx-stem-light)" />
+  </g>
+
+  <!-- 2. NHÁNH GIỮA (Xanh dương) -->
+  <g id="fx-mid">
+    <path d="M 136 330 C 136 262, 172 232, 232 232 C 286 232, 326 226, 364 192 C 356 260, 314 292, 242 292 C 188 292, 152 315, 136 362 Z" fill="url(#fx-mid-light)" />
+    <path d="M 136 362 C 148 296, 182 262, 238 262 C 292 262, 334 248, 364 192 C 356 260, 314 292, 242 292 C 188 292, 152 315, 136 362 Z" fill="url(#fx-mid-dark)" />
+  </g>
+
+  <!-- 3. NHÁNH TRÊN & MŨI TÊN (Xanh ngọc) -->
+  <g id="fx-top">
+    <path d="M 136 266 C 136 184, 174 150, 236 150 C 286 150, 318 142, 344 114 L 325 94 L 404 72 L 393 162 L 374 144 C 340 190, 298 208, 240 208 C 188 208, 154 226, 136 266 Z" fill="url(#fx-top-light)" />
+    <path d="M 136 266 C 150 206, 184 179, 240 179 C 294 179, 332 162, 362 126 L 404 72 L 393 162 L 374 144 C 340 190, 298 208, 240 208 C 188 208, 154 226, 136 266 Z" fill="url(#fx-top-dark)" />
+  </g>
+</svg>
